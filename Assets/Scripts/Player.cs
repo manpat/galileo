@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TEMPPLAYERSCRIPT : MonoBehaviour {
+public class Player : MonoBehaviour {
 	public float speed = 5f;
 
 	private Rigidbody rb;
