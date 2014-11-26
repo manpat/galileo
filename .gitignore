@@ -33,3 +33,5 @@ Thumbs.db
 *.dll
 *.exe
 galileo_Data/
+
+_WorkingDir/
