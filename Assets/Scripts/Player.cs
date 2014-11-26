@@ -3,6 +3,11 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 	public float speed = 5f;
+	public float speedPushing = 2.5f;
+
+	public float footstepInterval = 0.5f;
+
+	public bool hasCollectedCompound = false;
 
 	private Rigidbody rb;
 
