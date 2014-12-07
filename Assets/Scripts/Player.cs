@@ -9,9 +9,13 @@ public class Player : MonoBehaviour {
 
 	public bool hasCollectedCompound = false;
 
+	public Transform sun;
+
+	private Transform tr;
 	private Rigidbody rb;
 
-	void Start () {
+	void Awake () {
+		tr = transform;
 		rb = rigidbody;
 	}
 	
@@ -22,5 +26,13 @@ public class Player : MonoBehaviour {
 		vel.z = Input.GetAxis("Vertical") * speed;
 
 		rb.velocity = vel;
+
+		print(CanSeeSun());
+	}
+
+	public bool CanSeeSun() {
+		Vector3 rot = -sun.forward;
+
+		return !Physics.Raycast(tr.position, rot);
 	}
 }
