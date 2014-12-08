@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
 	public bool hasCollectedCompound = false;
 
 	public Transform sun;
+	public Renderer ren;
 
 	private Transform tr;
 	private Rigidbody rb;
@@ -27,7 +28,12 @@ public class Player : MonoBehaviour {
 
 		rb.velocity = vel;
 
-		print(CanSeeSun());
+		// print(CanSeeSun());
+		if(CanSeeSun()){
+			ren.material.color = Color.red;
+		}else{
+			ren.material.color = Color.white;
+		}
 	}
 
 	public bool CanSeeSun() {
