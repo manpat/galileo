@@ -14,7 +14,6 @@ public class Player : MonoBehaviour {
 
 	public Transform sun;
 	public Renderer ren;
-	public Renderer vignette;
 
 	private Transform tr;
 	private Rigidbody rb;
@@ -35,8 +34,7 @@ public class Player : MonoBehaviour {
 		vel.z = Input.GetAxis("Vertical") * speed;
 
 		rb.velocity = vel;
-
-		vignette.material.color = Color.Lerp(vignette.material.color, new Color(1f, 1f, 1f, (1f - GetShadeAmount())*vignetteShadeSensitivity), Time.deltaTime);
+		EffectsManager.main.SetVignetteAlpha((1f - GetShadeAmount()) * vignetteShadeSensitivity);
 	}
 
 	public float GetShadeAmount(){
@@ -56,5 +54,15 @@ public class Player : MonoBehaviour {
 
 		shadeAmount /= (float)shadeSampleCount;
 		shadeAmount = 1f - shadeAmount;
+	}
+
+	void OnCollisionEnter(Collision col){
+		if(col.gameObject.CompareTag("Compound")){
+			EventManager.main.OnCompoundCollect();
+			EffectsManager.main.OnCompoundCollect();
+			Destroy(col.gameObject);
+
+			hasCollectedCompound = true;
+		}
 	}
 }

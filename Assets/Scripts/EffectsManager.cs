@@ -22,6 +22,14 @@ public enum Music {
 public class EffectsManager : MonoBehaviour {
 	static public EffectsManager main = null;
 
+	public Color compoundCollectColor;
+	public Color vignetteColor;
+
+	public Renderer darkenvignette;
+	public Renderer lightenvignette;
+
+	private Color targetColor;
+
 	void Awake(){
 		if(main != null){
 			Debug.LogError("Duplicate EffectsManager detected in " + name + "\nDestroying duplicate");
@@ -29,6 +37,20 @@ public class EffectsManager : MonoBehaviour {
 			return;
 		}		
 		main = this;
+	}
+
+	void Update(){
+		darkenvignette.material.color = Color.Lerp(darkenvignette.material.color, targetColor, Time.deltaTime);
+		lightenvignette.material.SetColor("_TintColor", 
+			Color.Lerp(
+				lightenvignette.material.GetColor("_TintColor"), 
+				new Color(1f, 1f, 1f, 0f), 
+				Time.deltaTime*0.3f));
+	}
+
+	public void SetVignetteAlpha(float a){
+		targetColor = vignetteColor;
+		targetColor.a = a;
 	}
 
 	// Plays the footstep sound that matches the terrain at (pos). 
@@ -40,7 +62,7 @@ public class EffectsManager : MonoBehaviour {
 	// Plays the compound collect sound and creates a screen effect. 
 	// Also changes the background so that the next moon is in view.
 	public void OnCompoundCollect(){
-
+		lightenvignette.material.SetColor("_TintColor", compoundCollectColor);
 	}
 
 	// Plays a 2D sound, (sound).

@@ -17,18 +17,13 @@ public class EventManager : MonoBehaviour {
 
 	// Changes the layout of the level as necessary. 
 	// Sets a flag that reenables the players interaction with the ship.
-	public void OnCompoundCollect()
-	{
-		/*if (gameObject.tag == "Compound") 
-		{
-			DestroyObject(Compound);
-		}*/
+	public void OnCompoundCollect(){
+
 	}
 
 	// Assumes the player has the compound. 
 	// Will trigger a cutscene or transition and load either the next level or the credits.
-	public void OnReturnToShip()
-	{
-			//Application.LoadLevel("Start");
+	public void OnReturnToShip(){
+		
 	}
 }
