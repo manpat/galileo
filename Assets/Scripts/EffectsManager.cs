@@ -41,16 +41,19 @@ public class EffectsManager : MonoBehaviour {
 
 	void Update(){
 		darkenvignette.material.color = Color.Lerp(darkenvignette.material.color, targetColor, Time.deltaTime);
-		lightenvignette.material.SetColor("_TintColor", 
+		SetLightVignetteColor(
 			Color.Lerp(
 				lightenvignette.material.GetColor("_TintColor"), 
 				new Color(1f, 1f, 1f, 0f), 
 				Time.deltaTime*0.3f));
 	}
 
-	public void SetVignetteAlpha(float a){
+	public void SetDarkVignetteAlpha(float a){
 		targetColor = vignetteColor;
 		targetColor.a = a;
+	}
+	public void SetLightVignetteColor(Color c){
+		lightenvignette.material.SetColor("_TintColor", c);
 	}
 
 	// Plays the footstep sound that matches the terrain at (pos). 
@@ -62,7 +65,7 @@ public class EffectsManager : MonoBehaviour {
 	// Plays the compound collect sound and creates a screen effect. 
 	// Also changes the background so that the next moon is in view.
 	public void OnCompoundCollect(){
-		lightenvignette.material.SetColor("_TintColor", compoundCollectColor);
+		SetLightVignetteColor(compoundCollectColor);
 	}
 
 	// Plays a 2D sound, (sound).

@@ -34,7 +34,7 @@ public class Player : MonoBehaviour {
 		vel.z = Input.GetAxis("Vertical") * speed;
 
 		rb.velocity = vel;
-		EffectsManager.main.SetVignetteAlpha((1f - GetShadeAmount()) * vignetteShadeSensitivity);
+		EffectsManager.main.SetDarkVignetteAlpha((1f - GetShadeAmount()) * vignetteShadeSensitivity);
 	}
 
 	public float GetShadeAmount(){
@@ -63,6 +63,8 @@ public class Player : MonoBehaviour {
 			Destroy(col.gameObject);
 
 			hasCollectedCompound = true;
+		}else if(col.gameObject.CompareTag("Ship") && hasCollectedCompound){
+			EventManager.main.OnReturnToShip();
 		}
 	}
 }
