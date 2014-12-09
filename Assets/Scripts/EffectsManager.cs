@@ -59,7 +59,7 @@ public class EffectsManager : MonoBehaviour {
 				Time.deltaTime*0.6f));
 
 		sunLight.color = Color.Lerp(sunLight.color, sunTargetColor, Time.deltaTime);
-		sunLight.intensity = Mathf.Lerp(sunLight.intensity, sunTargetIntensity, Time.deltaTime);
+		sunLight.intensity = Mathf.Lerp(sunLight.intensity, sunTargetIntensity, Time.deltaTime*0.1f);
 	}
 
 	public Color startCol; 

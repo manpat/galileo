@@ -13,9 +13,9 @@ public class EventManager : MonoBehaviour {
 
 	private float platformMoveTimer = 0f;
 	private bool isCompoundCollected = false;
-	public bool playerInSun = false;
 
-	public float sunBurnTimer = -2f;
+	private float sunBurnTimer = -2f;
+	private bool burning = false;
 
 	void Awake(){
 		if(main != null){
@@ -42,25 +42,21 @@ public class EventManager : MonoBehaviour {
 			sunBurnTimer = -sunBurnInterval;
 		}
 
-		if(playerInSun){
-			if(sunBurnTimer > 0f){
-				EffectsManager.main.SetSun(1f);
-			}else if(sunBurnTimer > -sunBurnWarnLength){
-				EffectsManager.main.SetSun((sunBurnTimer + sunBurnWarnLength) / sunBurnWarnLength);
-			}else{
-				EffectsManager.main.SetSun(-1f);			
-			}
+		burning = false;
+		if(sunBurnTimer > 0f){
+			EffectsManager.main.SetSun(1f);
+			burning = true;
+		}else if(sunBurnTimer > -sunBurnWarnLength){
+			EffectsManager.main.SetSun((sunBurnTimer + sunBurnWarnLength) / sunBurnWarnLength);
 		}else{
-			if(sunBurnTimer > 0f){
-				EffectsManager.main.SetSun(sunBurnTimer/sunBurnLength*0.4f);
-			}else{
-				EffectsManager.main.SetSun(-1f);			
-			}
+			EffectsManager.main.SetSun(-1f);
 		}
 	}
 
-	public void SetInShade(bool _inshade){
-		playerInSun = !_inshade;
+	public void DoPlayerStuff(Player p){
+		if(p.GetShadeAmount() < 0.4f && burning){
+			p.Burn();
+		}
 	}
 
 	// Changes the layout of the level as necessary. 
