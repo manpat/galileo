@@ -37,8 +37,11 @@ public class EffectsManager : MonoBehaviour {
 	private Color sunTargetColor;
 	private float sunTargetIntensity;
 
+	private float targetFade = 0f; 
+
 	public Renderer darkenvignette;
 	public Renderer lightenvignette;
+	public Renderer fullscreenFade;
 	public Light sunLight;
 
 	private Color targetColor;
@@ -62,6 +65,8 @@ public class EffectsManager : MonoBehaviour {
 
 		sunLight.color = Color.Lerp(sunLight.color, sunTargetColor, Time.deltaTime);
 		sunLight.intensity = Mathf.Lerp(sunLight.intensity, sunTargetIntensity, Time.deltaTime*0.1f);
+
+		fullscreenFade.material.color = Color.Lerp(fullscreenFade.material.color, new Color(0f, 0f, 0f, targetFade), Time.deltaTime);
 	}
 
 	public Color startCol; 
@@ -93,6 +98,9 @@ public class EffectsManager : MonoBehaviour {
 	}
 	public void SetLightVignetteColor(Color c){
 		lightenvignette.material.SetColor("_TintColor", c);
+	}
+	public void SetFade(float a){
+		targetFade = a;
 	}
 
 	// Plays the footstep sound that matches the terrain at (pos). 
