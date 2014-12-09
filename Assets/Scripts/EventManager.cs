@@ -25,7 +25,8 @@ public class EventManager : MonoBehaviour {
 			platformMoveTimer += Time.deltaTime;
 			Vector3 p0 = fallingPlatform.savedPositions[0];
 			Vector3 p1 = fallingPlatform.savedPositions[1];
-			float d = (p1 - p0).magnitude;
+			Vector3 diff = (p1 - p0);
+			float d = diff.magnitude;
 
 			fallingPlatform.transform.position = Interp(p0, p1, platformMoveTimer/d);
 		}

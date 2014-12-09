@@ -106,6 +106,7 @@ public class Player : MonoBehaviour {
 
 	void DoAnimations(Vector3 vel){
 		bool dirty = false;
+		vel.y = 0;
 		if(vel.magnitude == 0f && animNum != 0){
 			animNum = 0;
 			dirty = true;
