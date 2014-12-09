@@ -29,8 +29,11 @@ public class EffectsManager : MonoBehaviour {
 	public Color preSunFlareColor;
 	public Color sunFlareColor;
 
+	public float sunIntensity = 0.6f;
+	public float sunIntensityBurning = 1f;
+
 	private Color sunTargetColor;
-	private bool sunVisible;
+	private float sunTargetIntensity;
 
 	public Renderer darkenvignette;
 	public Renderer lightenvignette;
@@ -56,6 +59,7 @@ public class EffectsManager : MonoBehaviour {
 				Time.deltaTime*0.6f));
 
 		sunLight.color = Color.Lerp(sunLight.color, sunTargetColor, Time.deltaTime);
+		sunLight.intensity = Mathf.Lerp(sunLight.intensity, sunTargetIntensity, Time.deltaTime);
 	}
 
 	public Color startCol; 
@@ -64,19 +68,18 @@ public class EffectsManager : MonoBehaviour {
 	// a < 1 warn
 	// a == 1 burn
 	public void SetSun(float a){
-		// print(a);
-		sunVisible = (a > 0.3f);
-
 		if(a <= 0f) {
 			startCol = sunLight.color;
 			sunTargetColor = sunColor;
+			sunTargetIntensity = sunIntensity;
 			return;
 		}
 
 		if(a < 0.5f){
 			sunTargetColor = Color.Lerp(startCol, preSunFlareColor, a/0.5f);
 		}else if(a < 1f){
-			sunTargetColor = Color.Lerp(preSunFlareColor, sunFlareColor, (a-0.5f)*5f);			
+			sunTargetColor = Color.Lerp(preSunFlareColor, sunFlareColor, (a-0.5f)*5f);
+			sunTargetIntensity = sunIntensityBurning;	
 		}else if(a >= 1f){
 			sunTargetColor = (sunFlareColor);
 		}
