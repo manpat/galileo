@@ -21,6 +21,8 @@ public class Player : MonoBehaviour {
 
 	private float shadeAmount;
 
+	private Vector3 aSafePlace;
+
 	void Awake () {
 		tr = transform;
 		rb = rigidbody;
@@ -38,10 +40,19 @@ public class Player : MonoBehaviour {
 
 		DoAnimations(vel/s);
 
-		EventManager.main.SetInShade(GetShadeAmount() < 0.7f); // At least 30% in shade
+		EventManager.main.DoPlayerStuff(this);
+		if(GetShadeAmount() > 0.4f){
+			aSafePlace = tr.position;
+			print("aSafePlace");
+		}
 
 		rb.velocity = vel;
-		EffectsManager.main.SetDarkVignetteAlpha((1f - GetShadeAmount()) * vignetteShadeSensitivity);
+		EffectsManager.main.SetDarkVignetteAlpha(GetShadeAmount() * vignetteShadeSensitivity);
+	}
+
+	public void Burn(){
+		tr.position = aSafePlace;
+		EffectsManager.main.OnPlayerBurn();
 	}
 
 	public float GetShadeAmount(){
@@ -60,7 +71,6 @@ public class Player : MonoBehaviour {
 		}
 
 		shadeAmount /= (float)shadeSampleCount;
-		shadeAmount = 1f - shadeAmount;
 	}
 
 	void OnCollisionEnter(Collision col){

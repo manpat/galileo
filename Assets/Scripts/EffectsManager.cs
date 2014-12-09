@@ -29,6 +29,8 @@ public class EffectsManager : MonoBehaviour {
 	public Color preSunFlareColor;
 	public Color sunFlareColor;
 
+	public Color playerBurnColor;
+
 	public float sunIntensity = 0.6f;
 	public float sunIntensityBurning = 1f;
 
@@ -59,7 +61,7 @@ public class EffectsManager : MonoBehaviour {
 				Time.deltaTime*0.6f));
 
 		sunLight.color = Color.Lerp(sunLight.color, sunTargetColor, Time.deltaTime);
-		sunLight.intensity = Mathf.Lerp(sunLight.intensity, sunTargetIntensity, Time.deltaTime);
+		sunLight.intensity = Mathf.Lerp(sunLight.intensity, sunTargetIntensity, Time.deltaTime*0.1f);
 	}
 
 	public Color startCol; 
@@ -113,5 +115,9 @@ public class EffectsManager : MonoBehaviour {
 	// Begins fade to the music track (music).
 	public void SetMusic(Music music){
 
+	}
+
+	public void OnPlayerBurn(){
+		SetLightVignetteColor(playerBurnColor);
 	}
 }

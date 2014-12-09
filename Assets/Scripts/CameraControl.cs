@@ -19,8 +19,10 @@ public class CameraControl : MonoBehaviour {
 
 		// y = d sin ϴ
 		// z = d cos ϴ
-		tr.position = target.transform.position + new Vector3(
+		Vector3 npos = target.transform.position + new Vector3(
 			0f, Mathf.Sin(rad), -Mathf.Cos(rad)
 			) * distance;
+
+		tr.position = Vector3.Lerp(tr.position, npos, Time.deltaTime);
 	}
 }
