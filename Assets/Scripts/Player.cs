@@ -38,6 +38,8 @@ public class Player : MonoBehaviour {
 
 		DoAnimations(vel/s);
 
+		EventManager.main.SetInShade(GetShadeAmount() < 0.7f); // At least 30% in shade
+
 		rb.velocity = vel;
 		EffectsManager.main.SetDarkVignetteAlpha((1f - GetShadeAmount()) * vignetteShadeSensitivity);
 	}

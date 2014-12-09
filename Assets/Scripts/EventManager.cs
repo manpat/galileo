@@ -13,8 +13,9 @@ public class EventManager : MonoBehaviour {
 
 	private float platformMoveTimer = 0f;
 	private bool isCompoundCollected = false;
+	public bool playerInSun = false;
 
-	private float sunBurnTimer = 0f;
+	public float sunBurnTimer = -2f;
 
 	void Awake(){
 		if(main != null){
@@ -39,11 +40,27 @@ public class EventManager : MonoBehaviour {
 		sunBurnTimer += Time.deltaTime;
 		if(sunBurnTimer >= sunBurnLength){
 			sunBurnTimer = -sunBurnInterval;
-		}else if(sunBurnTimer > 0f){
-			EffectsManager.main.SetSun(1f);
-		}else if(sunBurnTimer > -sunBurnWarnLength){
-			EffectsManager.main.SetSun((sunBurnTimer + sunBurnWarnLength) / sunBurnWarnLength);
 		}
+
+		if(playerInSun){
+			if(sunBurnTimer > 0f){
+				EffectsManager.main.SetSun(1f);
+			}else if(sunBurnTimer > -sunBurnWarnLength){
+				EffectsManager.main.SetSun((sunBurnTimer + sunBurnWarnLength) / sunBurnWarnLength);
+			}else{
+				EffectsManager.main.SetSun(-1f);			
+			}
+		}else{
+			if(sunBurnTimer > 0f){
+				EffectsManager.main.SetSun(sunBurnTimer/sunBurnLength*0.4f);
+			}else{
+				EffectsManager.main.SetSun(-1f);			
+			}
+		}
+	}
+
+	public void SetInShade(bool _inshade){
+		playerInSun = !_inshade;
 	}
 
 	// Changes the layout of the level as necessary. 

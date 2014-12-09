@@ -25,11 +25,16 @@ public class EffectsManager : MonoBehaviour {
 	public Color compoundCollectColor;
 	public Color vignetteColor;
 
+	public Color sunColor;
 	public Color preSunFlareColor;
 	public Color sunFlareColor;
 
+	private Color sunTargetColor;
+	private bool sunVisible;
+
 	public Renderer darkenvignette;
 	public Renderer lightenvignette;
+	public Light sunLight;
 
 	private Color targetColor;
 
@@ -48,28 +53,32 @@ public class EffectsManager : MonoBehaviour {
 			Color.Lerp(
 				lightenvignette.material.GetColor("_TintColor"), 
 				new Color(1f, 1f, 1f, 0f), 
-				Time.deltaTime*0.3f));
+				Time.deltaTime*0.6f));
+
+		sunLight.color = Color.Lerp(sunLight.color, sunTargetColor, Time.deltaTime);
 	}
 
-	private Color startCol; 
+	public Color startCol; 
 
 	// a <= 0 no sun burn
 	// a < 1 warn
 	// a == 1 burn
 	public void SetSun(float a){
+		// print(a);
+		sunVisible = (a > 0.3f);
+
 		if(a <= 0f) {
-			startCol = lightenvignette.material.GetColor("_TintColor");
+			startCol = sunLight.color;
+			sunTargetColor = sunColor;
 			return;
 		}
 
 		if(a < 0.5f){
-			SetLightVignetteColor(
-				Color.Lerp(startCol, preSunFlareColor, a/0.5f));
+			sunTargetColor = Color.Lerp(startCol, preSunFlareColor, a/0.5f);
 		}else if(a < 1f){
-			SetLightVignetteColor(
-				Color.Lerp(preSunFlareColor, sunFlareColor, (a-0.5f)*5f));			
+			sunTargetColor = Color.Lerp(preSunFlareColor, sunFlareColor, (a-0.5f)*5f);			
 		}else if(a >= 1f){
-			SetLightVignetteColor(sunFlareColor);
+			sunTargetColor = (sunFlareColor);
 		}
 	}
 
