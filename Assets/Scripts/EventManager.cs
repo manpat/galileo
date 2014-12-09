@@ -14,7 +14,7 @@ public class EventManager : MonoBehaviour {
 	private float platformMoveTimer = 0f;
 	private bool isCompoundCollected = false;
 
-	private float sunBurnTimer = -2f;
+	private float sunBurnTimer = -8f;
 	private bool burning = false;
 
 	void Awake(){

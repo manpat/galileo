@@ -29,6 +29,8 @@ public class EffectsManager : MonoBehaviour {
 	public Color preSunFlareColor;
 	public Color sunFlareColor;
 
+	public Color playerBurnColor;
+
 	public float sunIntensity = 0.6f;
 	public float sunIntensityBurning = 1f;
 
@@ -113,5 +115,9 @@ public class EffectsManager : MonoBehaviour {
 	// Begins fade to the music track (music).
 	public void SetMusic(Music music){
 
+	}
+
+	public void OnPlayerBurn(){
+		SetLightVignetteColor(playerBurnColor);
 	}
 }

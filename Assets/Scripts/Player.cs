@@ -52,6 +52,7 @@ public class Player : MonoBehaviour {
 
 	public void Burn(){
 		tr.position = aSafePlace;
+		EffectsManager.main.OnPlayerBurn();
 	}
 
 	public float GetShadeAmount(){
