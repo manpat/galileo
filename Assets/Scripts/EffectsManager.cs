@@ -25,6 +25,9 @@ public class EffectsManager : MonoBehaviour {
 	public Color compoundCollectColor;
 	public Color vignetteColor;
 
+	public Color preSunFlareColor;
+	public Color sunFlareColor;
+
 	public Renderer darkenvignette;
 	public Renderer lightenvignette;
 
@@ -46,6 +49,28 @@ public class EffectsManager : MonoBehaviour {
 				lightenvignette.material.GetColor("_TintColor"), 
 				new Color(1f, 1f, 1f, 0f), 
 				Time.deltaTime*0.3f));
+	}
+
+	private Color startCol; 
+
+	// a <= 0 no sun burn
+	// a < 1 warn
+	// a == 1 burn
+	public void SetSun(float a){
+		if(a <= 0f) {
+			startCol = lightenvignette.material.GetColor("_TintColor");
+			return;
+		}
+
+		if(a < 0.5f){
+			SetLightVignetteColor(
+				Color.Lerp(startCol, preSunFlareColor, a/0.5f));
+		}else if(a < 1f){
+			SetLightVignetteColor(
+				Color.Lerp(preSunFlareColor, sunFlareColor, (a-0.5f)*5f));			
+		}else if(a >= 1f){
+			SetLightVignetteColor(sunFlareColor);
+		}
 	}
 
 	public void SetDarkVignetteAlpha(float a){

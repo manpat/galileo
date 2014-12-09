@@ -7,9 +7,14 @@ public class EventManager : MonoBehaviour {
 
 	public WaypointThing fallingPlatform;
 	public float platformMoveSpeed;
+	public float sunBurnInterval = 6f;
+	public float sunBurnWarnLength = 2f;
+	public float sunBurnLength = 3f;
 
 	private float platformMoveTimer = 0f;
 	private bool isCompoundCollected = false;
+
+	private float sunBurnTimer = 0f;
 
 	void Awake(){
 		if(main != null){
@@ -29,6 +34,15 @@ public class EventManager : MonoBehaviour {
 			float d = diff.magnitude;
 
 			fallingPlatform.transform.position = Interp(p0, p1, platformMoveTimer/d);
+		}
+
+		sunBurnTimer += Time.deltaTime;
+		if(sunBurnTimer >= sunBurnLength){
+			sunBurnTimer = -sunBurnInterval;
+		}else if(sunBurnTimer > 0f){
+			EffectsManager.main.SetSun(1f);
+		}else if(sunBurnTimer > -sunBurnWarnLength){
+			EffectsManager.main.SetSun((sunBurnTimer + sunBurnWarnLength) / sunBurnWarnLength);
 		}
 	}
 
