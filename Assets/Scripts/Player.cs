@@ -90,6 +90,8 @@ public class Player : MonoBehaviour {
 	void OnCollisionStay(Collision col){
 		if(col.gameObject.CompareTag("NotPushableAnyMore")){
 			isPushing = false;
+		}else if(col.gameObject.CompareTag("Pushable")){
+			isPushing = true;
 		}
 	}
 
